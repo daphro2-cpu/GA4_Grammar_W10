@@ -1,319 +1,745 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GA4 Grammar Practice Units 7–8</title>
-
-<style>
-body {
-  font-family: "Century Gothic", sans-serif;
-  background: linear-gradient(135deg,#0a1f44,#041126);
-  color: white;
-  margin: 0;
-  padding: 20px;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-}
-
-h1 {
-  text-align: center;
-}
-
-.section {
-  background: rgba(255,255,255,0.08);
-  padding: 20px;
-  margin: 20px 0;
-  border-radius: 20px;
-}
-
-button {
-  padding: 10px 15px;
-  margin: 5px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.option {
-  background: #2c3e50;
-  color: white;
-}
-
-.correct { background: #2ecc71; }
-.wrong { background: #e74c3c; }
-
-.progress {
-  height: 12px;
-  background: #333;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.progress-bar {
-  height: 12px;
-  background: #2ecc71;
-  width: 0%;
-  border-radius: 10px;
-}
-
-.token {
-  background:#3a5a8a;
-  color:white;
-}
-
-.token.used {
-  opacity:0.4;
-}
-
-.answer-box {
-  min-height:50px;
-  border:2px dashed white;
-  padding:10px;
-  margin:10px 0;
-}
-
-.hint {
-  color:#a9c7ff;
-  margin-top:10px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GA4 Grammar Practice • Units 7–8</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Century Gothic", Arial, sans-serif;
+      background: linear-gradient(180deg, #071633 0%, #041126 100%);
+      color: #f4f7ff;
+    }
+    .page {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+    .topbar {
+      display: grid;
+      grid-template-columns: 120px 1fr 360px;
+      gap: 18px;
+      background: linear-gradient(180deg, #102a57 0%, #0a1e45 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 22px 26px;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+    .logo-box {
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      background: radial-gradient(circle at 30% 30%, #1e4f99, #0d234d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .logo-box img {
+      width: 82%;
+      height: 82%;
+      object-fit: contain;
+    }
+    .title-wrap h1 {
+      margin: 2px 0 10px;
+      font-size: 30px;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+    .subtitle {
+      color: #c7d5f7;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+    .stats {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .stat-row {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .pill {
+      min-width: 110px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(5,18,45,0.55);
+      font-size: 16px;
+      text-align: center;
+      font-weight: 700;
+      color: #f7fbff;
+    }
+    .progress-shell {
+      margin-top: 12px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #7db3ff, #b3d2ff);
+      transition: width 0.25s ease;
+    }
+    .section {
+      background: linear-gradient(180deg, #071b45 0%, #031433 100%);
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+    }
+    .section.locked {
+      opacity: 0.45;
+      filter: grayscale(0.25);
+      pointer-events: none;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .section h2 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(5,18,45,0.75);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #d9e6ff;
+      font-size: 14px;
+    }
+    .section-note {
+      color: #c8d9fb;
+      margin-bottom: 18px;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+    .task-card {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 20px;
+      margin-bottom: 16px;
+      background: rgba(255,255,255,0.02);
+    }
+    .task-title {
+      font-size: 22px;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .task-quote {
+      border-left: 4px solid #6ea8ff;
+      padding-left: 14px;
+      color: #d8e7ff;
+      font-size: 18px;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 12px 0 10px;
+    }
+    .option-btn, .control-btn, .token-btn {
+      font-family: inherit;
+    }
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background: linear-gradient(180deg, #2b457b 0%, #243d6d 100%);
+      color: white;
+      border: 2px solid transparent;
+      border-radius: 20px;
+      padding: 18px 20px;
+      font-size: 19px;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+    .option-btn:hover, .control-btn:hover, .token-btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+    .option-btn.correct {
+      background: linear-gradient(180deg, #1f8c57 0%, #176d44 100%);
+      border-color: #7cf0b2;
+    }
+    .option-btn.wrong {
+      background: linear-gradient(180deg, #983d4d 0%, #7d2f3d 100%);
+      border-color: #ffb6c1;
+    }
+    .feedback {
+      min-height: 30px;
+      font-size: 18px;
+      color: #deebff;
+      margin-top: 10px;
+    }
+    .hint-box {
+      margin-top: 10px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #213d71 0%, #1a315a 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #e9f2ff;
+      line-height: 1.5;
+      font-size: 17px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .control-btn {
+      background: linear-gradient(180deg, #223d70 0%, #1c335c 100%);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 12px 18px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+    .answer-area {
+      min-height: 84px;
+      border-radius: 18px;
+      border: 2px dashed rgba(255,255,255,0.20);
+      padding: 12px;
+      margin: 12px 0 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-start;
+      background: rgba(255,255,255,0.03);
+    }
+    .bank-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .token-btn {
+      border: none;
+      border-radius: 16px;
+      padding: 12px 16px;
+      font-size: 19px;
+      background: linear-gradient(180deg, #425f95 0%, #314a78 100%);
+      color: white;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+    .token-btn.used {
+      opacity: 0.38;
+    }
+    .mini-label {
+      display: inline-block;
+      margin-top: 6px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #c9dbff;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-box {
+      text-align: center;
+      padding: 24px;
+      font-size: 20px;
+      color: #dfeaff;
+    }
+    @media (max-width: 1100px) {
+      .topbar {
+        grid-template-columns: 100px 1fr;
+      }
+      .stats {
+        grid-column: 1 / -1;
+      }
+    }
+    @media (max-width: 760px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+      .title-wrap h1 { font-size: 24px; }
+      .task-title { font-size: 20px; }
+      .option-btn, .control-btn, .token-btn { font-size: 18px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="page">
+    <div class="topbar">
+      <div class="logo-box">
+        <img src="logo.png" alt="Logo" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=&quot;font-size:46px;&quot;>🦒</div>';">
+      </div>
 
-<div class="container">
+      <div class="title-wrap">
+        <h1>Grammar Practice • Units 7–8</h1>
+        <div class="subtitle">
+          Part 1: Vocabulary usage • Part 2: Grammar usage • Part 3: Unscramble<br>
+          Finish one part first. Then the next part will open.
+        </div>
+      </div>
 
-<h1>Grammar Practice (Units 7–8)</h1>
+      <div class="stats">
+        <div class="stat-row">
+          <div class="pill" id="scoreText">Score 0/13</div>
+          <div class="pill" id="partText">Part 1</div>
+          <div class="pill" id="timerText">Time 00:00</div>
+        </div>
+        <div class="progress-shell">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+    </div>
 
-<div class="progress">
-<div class="progress-bar" id="progress"></div>
-</div>
+    <div class="section" id="section-vocab">
+      <div class="section-header">
+        <h2>Part 1 • Vocabulary Usage</h2>
+        <span class="badge" id="vocabScore">0 / 4</span>
+      </div>
+      <div class="section-note">
+        Choose the word or phrase that fits the sentence best.
+      </div>
+      <div id="vocabContainer"></div>
+    </div>
 
-<div id="quiz"></div>
+    <div class="section locked" id="section-grammar">
+      <div class="section-header">
+        <h2>Part 2 • Grammar Usage</h2>
+        <span class="badge" id="grammarScore">0 / 5</span>
+      </div>
+      <div class="section-note">
+        Use the correct grammar pattern from Units 7–8.
+      </div>
+      <div id="grammarContainer"></div>
+    </div>
 
-</div>
+    <div class="section locked" id="section-unscramble">
+      <div class="section-header">
+        <h2>Part 3 • Unscramble</h2>
+        <span class="badge" id="unscrambleScore">0 / 4</span>
+      </div>
+      <div class="section-note">
+        Build the full sentence. Punctuation matters.
+      </div>
+      <div id="unscrambleContainer"></div>
+    </div>
 
-<script>
+    <div class="section" id="finalSection" style="display:none;">
+      <div class="footer-box" id="finalBox"></div>
+    </div>
+  </div>
 
-const tasks = [
+  <script>
+    const vocabTasks = [
+      {
+        prompt: "I usually go to bed at ______.",
+        quote: "I don’t sleep at 8:00 p.m. I sleep at 12:00 a.m.",
+        options: ["midnight", "weekend", "Monday", "summer"],
+        answer: 0,
+        hint: "12:00 a.m. = midnight",
+        correctMsg: "Correct. We say: at midnight."
+      },
+      {
+        prompt: "We visit Grandma at the ______.",
+        quote: "We do not go on school days. We go on Saturday or Sunday.",
+        options: ["morning", "weekend", "midnight", "classroom"],
+        answer: 1,
+        hint: "Saturday and Sunday together = weekend",
+        correctMsg: "Correct. Saturday and Sunday = the weekend."
+      },
+      {
+        prompt: "My sister ______ does her homework after dinner. She does it almost every day.",
+        quote: "",
+        options: ["never", "usually", "on", "at"],
+        answer: 1,
+        hint: "Almost every day = usually",
+        correctMsg: "Correct. Usually = most of the time."
+      },
+      {
+        prompt: "We watch the New Year show on ______.",
+        quote: "It is not in a place. We watch it using the screen.",
+        options: ["TV", "England", "Monday", "work"],
+        answer: 0,
+        hint: "The phrase is: on TV",
+        correctMsg: "Correct. We say: on TV."
+      }
+    ];
 
-{
-type:"mcq",
-question:"What does 'midnight' mean?",
-options:["12 o’clock at night","morning","lunchtime"],
-answer:0,
-hint:"It is the exact time between days."
-},
+    const grammarTasks = [
+      {
+        prompt: "I get up ______ 7:00 every school day.",
+        options: ["in", "on", "at", "every"],
+        answer: 2,
+        hint: "Use this with exact time.",
+        correctMsg: "Correct. We say: at 7:00."
+      },
+      {
+        prompt: "We have English class ______ Mondays.",
+        options: ["on", "at", "in", "does"],
+        answer: 0,
+        hint: "Use this with days.",
+        correctMsg: "Correct. We say: on Mondays."
+      },
+      {
+        prompt: "My brother ______ plays basketball after school.",
+        options: ["at", "usually", "on", "every day"],
+        answer: 1,
+        hint: "Adverbs of frequency go before the main verb.",
+        correctMsg: "Correct. Usually goes before plays."
+      },
+      {
+        prompt: "How often ______ you read English books?",
+        options: ["does", "do", "are", "is"],
+        answer: 1,
+        hint: "Subject = you",
+        correctMsg: "Correct. We say: do you read..."
+      },
+      {
+        prompt: "Where ______ your cousins live?",
+        options: ["does", "do", "is", "at"],
+        answer: 1,
+        hint: "Cousins = plural",
+        correctMsg: "Correct. Plural subject takes do."
+      }
+    ];
 
-{
-type:"mcq",
-question:"I wake up ___ 7 o’clock.",
-options:["in","on","at"],
-answer:2,
-hint:"Exact time"
-},
+    const unscrambleTasks = [
+      {
+        clue: "Use present simple. Adverb in the middle. Time expression at the end.",
+        tokens: ["breakfast", "I", "usually", "eat", "at", "7:00", "."],
+        answer: ["I", "usually", "eat", "breakfast", "at", "7:00", "."],
+        hint: "Start with the subject. Put usually before the verb."
+      },
+      {
+        clue: "This is a Wh-question. Use correct question order.",
+        tokens: ["go", "How", "often", "you", "do", "to", "the", "cinema", "?"],
+        answer: ["How", "often", "do", "you", "go", "to", "the", "cinema", "?"],
+        hint: "Wh-word + do + subject + verb"
+      },
+      {
+        clue: "This sentence uses a day phrase and punctuation.",
+        tokens: ["on", "We", "Saturdays", "tennis", "play", "."],
+        answer: ["We", "play", "tennis", "on", "Saturdays", "."],
+        hint: "Subject first, then verb, then object, then time."
+      },
+      {
+        clue: "This is a Wh-question with does. Do not add -s to the main verb.",
+        tokens: ["your", "Where", "work", "sister", "does", "?"],
+        answer: ["Where", "does", "your", "sister", "work", "?"],
+        hint: "After does, the main verb stays in base form."
+      }
+    ];
 
-{
-type:"mcq",
-question:"We play football ___ Saturdays.",
-options:["in","on","at"],
-answer:1,
-hint:"Days"
-},
+    let totalTasks = vocabTasks.length + grammarTasks.length + unscrambleTasks.length;
+    let solvedTotal = 0;
+    let score = 0;
+    let timer = 0;
 
-{
-type:"mcq",
-question:"She ___ watches TV after dinner.",
-options:["every day","usually","at"],
-answer:1,
-hint:"Goes before verb"
-},
+    const state = {
+      vocabSolved: Array(vocabTasks.length).fill(false),
+      grammarSolved: Array(grammarTasks.length).fill(false),
+      unscrambleSolved: Array(unscrambleTasks.length).fill(false),
+      unscrambleStates: {}
+    };
 
-{
-type:"mcq",
-question:"How often ___ you go to school?",
-options:["do","does","are"],
-answer:0,
-hint:"Subject = you"
-},
+    function formatTime(totalSec) {
+      const m = String(Math.floor(totalSec / 60)).padStart(2, "0");
+      const s = String(totalSec % 60).padStart(2, "0");
+      return `${m}:${s}`;
+    }
 
-{
-type:"unscramble",
-tokens:["I","usually","eat","breakfast","at","7"],
-answer:["I","usually","eat","breakfast","at","7"],
-hint:"Adverb before verb"
-},
+    setInterval(() => {
+      timer++;
+      document.getElementById("timerText").textContent = `Time ${formatTime(timer)}`;
+    }, 1000);
 
-{
-type:"unscramble",
-tokens:["We","play","on","Mondays"],
-answer:["We","play","on","Mondays"],
-hint:"Day = ON"
-},
+    function updateTop() {
+      document.getElementById("scoreText").textContent = `Score ${score}/${totalTasks}`;
+      document.getElementById("progressBar").style.width = `${(solvedTotal / totalTasks) * 100}%`;
 
-{
-type:"unscramble",
-tokens:["She","reads","books","every","day"],
-answer:["She","reads","books","every","day"],
-hint:"Time expression at end"
-},
+      let part = "Part 1";
+      if (allSolved(state.vocabSolved) && !allSolved(state.grammarSolved)) part = "Part 2";
+      if (allSolved(state.vocabSolved) && allSolved(state.grammarSolved) && !allSolved(state.unscrambleSolved)) part = "Part 3";
+      if (allSolved(state.vocabSolved) && allSolved(state.grammarSolved) && allSolved(state.unscrambleSolved)) part = "Done";
+      document.getElementById("partText").textContent = part;
 
-{
-type:"unscramble",
-tokens:["Where","do","you","live"],
-answer:["Where","do","you","live"],
-hint:"WH + do + subject"
-},
+      document.getElementById("vocabScore").textContent = `${countSolved(state.vocabSolved)} / ${vocabTasks.length}`;
+      document.getElementById("grammarScore").textContent = `${countSolved(state.grammarSolved)} / ${grammarTasks.length}`;
+      document.getElementById("unscrambleScore").textContent = `${countSolved(state.unscrambleSolved)} / ${unscrambleTasks.length}`;
 
-{
-type:"unscramble",
-tokens:["How","often","does","he","play","tennis"],
-answer:["How","often","does","he","play","tennis"],
-hint:"Does → no s on verb"
-}
+      if (allSolved(state.vocabSolved)) {
+        document.getElementById("section-grammar").classList.remove("locked");
+      }
+      if (allSolved(state.vocabSolved) && allSolved(state.grammarSolved)) {
+        document.getElementById("section-unscramble").classList.remove("locked");
+      }
+      if (allSolved(state.vocabSolved) && allSolved(state.grammarSolved) && allSolved(state.unscrambleSolved)) {
+        showFinal();
+      }
+    }
 
-];
+    function countSolved(arr) {
+      return arr.filter(Boolean).length;
+    }
 
-let current=0;
-let score=0;
-let userAnswer=[];
-let used=[];
+    function allSolved(arr) {
+      return arr.every(Boolean);
+    }
 
-function render(){
-const q=tasks[current];
-const quiz=document.getElementById("quiz");
+    function renderMCQSection(containerId, tasks, solvedArray, sectionType) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = tasks.map((task, index) => {
+        return `
+          <div class="task-card">
+            <div class="task-title">${index + 1}. ${task.prompt}</div>
+            ${task.quote ? `<div class="task-quote">${task.quote}</div>` : ""}
+            <div class="options-grid">
+              ${task.options.map((opt, i) => `
+                <button class="option-btn" id="${sectionType}-btn-${index}-${i}"
+                  onclick="checkMCQ('${sectionType}', ${index}, ${i})"
+                  ${solvedArray[index] ? "disabled" : ""}>${opt}</button>
+              `).join("")}
+            </div>
+            <div class="feedback" id="${sectionType}-feedback-${index}"></div>
+            <div class="hint-box" id="${sectionType}-hint-${index}">
+              <b>Hint:</b> ${task.hint}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
 
-updateProgress();
+    function checkMCQ(sectionType, index, choice) {
+      let tasksRef, solvedArray;
+      if (sectionType === "vocab") {
+        tasksRef = vocabTasks;
+        solvedArray = state.vocabSolved;
+      } else {
+        tasksRef = grammarTasks;
+        solvedArray = state.grammarSolved;
+      }
 
-if(q.type==="mcq"){
-quiz.innerHTML=`
-<div class="section">
-<h2>${q.question}</h2>
-${q.options.map((opt,i)=>`
-<button class="option" onclick="checkMCQ(${i})">${opt}</button>
-`).join("")}
-<div id="feedback"></div>
-<div class="hint">${q.hint}</div>
-</div>`;
-}
+      const task = tasksRef[index];
+      if (solvedArray[index]) return;
 
-else{
-userAnswer=[];
-used=[];
-quiz.innerHTML=`
-<div class="section">
-<h2>Build the sentence</h2>
+      const feedback = document.getElementById(`${sectionType}-feedback-${index}`);
+      const buttons = task.options.map((_, i) => document.getElementById(`${sectionType}-btn-${index}-${i}`));
 
-<div class="answer-box" id="answer"></div>
+      if (choice === task.answer) {
+        buttons[choice].classList.add("correct");
+        buttons.forEach(btn => btn.disabled = true);
+        feedback.innerHTML = `✅ ${task.correctMsg}`;
+        solvedArray[index] = true;
+        score++;
+        solvedTotal++;
+        updateTop();
+      } else {
+        buttons[choice].classList.add("wrong");
+        buttons[choice].disabled = true;
+        feedback.innerHTML = `❌ Try again.`;
+      }
+    }
 
-<div>
-${q.tokens.map((t,i)=>`
-<button class="token" id="t${i}" onclick="add(${i})">${t}</button>
-`).join("")}
-</div>
+    function shuffleEnsureDifferent(array) {
+      let arr = [...array];
+      let same = true;
+      while (same) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        same = arr.join("|||") === array.join("|||");
+      }
+      return arr;
+    }
 
-<button onclick="checkUnscramble()">Check</button>
-<button onclick="reset()">Reset</button>
+    function initUnscrambleState(index) {
+      if (!state.unscrambleStates[index]) {
+        state.unscrambleStates[index] = {
+          bank: shuffleEnsureDifferent(unscrambleTasks[index].tokens),
+          answerArea: [],
+          usedBankIndexes: []
+        };
+      }
+    }
 
-<div id="feedback"></div>
-<div class="hint">${q.hint}</div>
-</div>`;
-}
-}
+    function renderUnscrambleSection() {
+      const container = document.getElementById("unscrambleContainer");
+      container.innerHTML = unscrambleTasks.map((task, index) => {
+        initUnscrambleState(index);
+        const st = state.unscrambleStates[index];
 
-function checkMCQ(i){
-const q=tasks[current];
-const feedback=document.getElementById("feedback");
+        return `
+          <div class="task-card">
+            <div class="task-title">${index + 1}. Build the sentence.</div>
+            <div class="mini-label">Clue</div>
+            <div class="task-quote">${task.clue}</div>
 
-if(i===q.answer){
-feedback.innerHTML="✅ Correct!";
-score++;
-next();
-}else{
-feedback.innerHTML="❌ Try again";
-}
-}
+            <div class="mini-label">Your sentence</div>
+            <div class="answer-area" id="answer-area-${index}">
+              ${renderAnswerArea(index)}
+            </div>
 
-function add(i){
-if(used.includes(i)) return;
+            <div class="mini-label">Word bank</div>
+            <div class="bank-area" id="bank-area-${index}">
+              ${renderBank(index)}
+            </div>
 
-used.push(i);
-userAnswer.push(tasks[current].tokens[i]);
+            <div class="controls">
+              <button class="control-btn" onclick="showUnscrambleHint(${index})">Hint</button>
+              <button class="control-btn" onclick="resetUnscramble(${index})" ${state.unscrambleSolved[index] ? "disabled" : ""}>Reset</button>
+              <button class="control-btn" onclick="checkUnscramble(${index})" ${state.unscrambleSolved[index] ? "disabled" : ""}>Check</button>
+            </div>
 
-document.getElementById("t"+i).classList.add("used");
+            <div class="feedback" id="unscramble-feedback-${index}"></div>
+            <div class="hint-box" id="unscramble-hint-${index}">
+              <b>Tip:</b> Click a token in the answer to remove just that one token.
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
 
-updateAnswer();
-}
+    function renderAnswerArea(index) {
+      const st = state.unscrambleStates[index];
+      if (!st.answerArea.length) {
+        return `<span style="color:#9fb6df;">Click words to build the sentence.</span>`;
+      }
+      return st.answerArea.map((item, i) => {
+        return `<button class="token-btn" onclick="removeAnswerToken(${index}, ${i})">${item.token}</button>`;
+      }).join("");
+    }
 
-function updateAnswer(){
-document.getElementById("answer").innerHTML=
-userAnswer.map((w,i)=>`<button onclick="remove(${i})">${w}</button>`).join(" ");
-}
+    function renderBank(index) {
+      const st = state.unscrambleStates[index];
+      return st.bank.map((tok, i) => {
+        const used = st.usedBankIndexes.includes(i);
+        return `<button class="token-btn ${used ? "used" : ""}"
+                  id="bank-${index}-${i}"
+                  onclick="addBankToken(${index}, ${i})"
+                  ${used || state.unscrambleSolved[index] ? "disabled" : ""}>${tok}</button>`;
+      }).join("");
+    }
 
-function remove(i){
-const word=userAnswer[i];
-const index=tasks[current].tokens.indexOf(word);
+    function addBankToken(taskIndex, bankIndex) {
+      if (state.unscrambleSolved[taskIndex]) return;
+      const st = state.unscrambleStates[taskIndex];
+      if (st.usedBankIndexes.includes(bankIndex)) return;
 
-used=used.filter(x=>x!==index);
-userAnswer.splice(i,1);
+      st.answerArea.push({ token: st.bank[bankIndex], bankIndex });
+      st.usedBankIndexes.push(bankIndex);
 
-document.getElementById("t"+index).classList.remove("used");
+      document.getElementById(`answer-area-${taskIndex}`).innerHTML = renderAnswerArea(taskIndex);
+      document.getElementById(`bank-area-${taskIndex}`).innerHTML = renderBank(taskIndex);
+    }
 
-updateAnswer();
-}
+    function removeAnswerToken(taskIndex, answerPos) {
+      if (state.unscrambleSolved[taskIndex]) return;
+      const st = state.unscrambleStates[taskIndex];
+      const removed = st.answerArea.splice(answerPos, 1)[0];
+      st.usedBankIndexes = st.usedBankIndexes.filter(i => i !== removed.bankIndex);
 
-function checkUnscramble(){
-const q=tasks[current];
-const feedback=document.getElementById("feedback");
+      document.getElementById(`answer-area-${taskIndex}`).innerHTML = renderAnswerArea(taskIndex);
+      document.getElementById(`bank-area-${taskIndex}`).innerHTML = renderBank(taskIndex);
+    }
 
-if(userAnswer.join(" ")===q.answer.join(" ")){
-feedback.innerHTML="✅ Correct!";
-score++;
-next();
-}else{
-feedback.innerHTML="❌ Check order";
-}
-}
+    function resetUnscramble(taskIndex) {
+      if (state.unscrambleSolved[taskIndex]) return;
+      state.unscrambleStates[taskIndex] = {
+        bank: shuffleEnsureDifferent(unscrambleTasks[taskIndex].tokens),
+        answerArea: [],
+        usedBankIndexes: []
+      };
+      document.getElementById(`answer-area-${taskIndex}`).innerHTML = renderAnswerArea(taskIndex);
+      document.getElementById(`bank-area-${taskIndex}`).innerHTML = renderBank(taskIndex);
+      document.getElementById(`unscramble-feedback-${taskIndex}`).innerHTML = "";
+      document.getElementById(`unscramble-hint-${taskIndex}`).innerHTML = `<b>Tip:</b> Click a token in the answer to remove just that one token.`;
+    }
 
-function reset(){
-userAnswer=[];
-used=[];
-render();
-}
+    function showUnscrambleHint(taskIndex) {
+      document.getElementById(`unscramble-hint-${taskIndex}`).innerHTML =
+        `<b>Hint:</b> ${unscrambleTasks[taskIndex].hint}`;
+    }
 
-function next(){
-setTimeout(()=>{
-current++;
-if(current<tasks.length){
-render();
-}else{
-end();
-}
-},800);
-}
+    function checkUnscramble(taskIndex) {
+      if (state.unscrambleSolved[taskIndex]) return;
 
-function updateProgress(){
-document.getElementById("progress").style.width=
-(current/tasks.length*100)+"%";
-}
+      const task = unscrambleTasks[taskIndex];
+      const st = state.unscrambleStates[taskIndex];
+      const user = st.answerArea.map(x => x.token);
+      const feedback = document.getElementById(`unscramble-feedback-${taskIndex}`);
 
-function end(){
-document.getElementById("quiz").innerHTML=`
-<div class="section">
-<h2>Finished!</h2>
-<p>Score: ${score}/${tasks.length}</p>
-<button onclick="location.reload()">Try Again</button>
-</div>`;
-}
+      if (user.length !== task.answer.length) {
+        feedback.innerHTML = `❌ Your sentence is not finished yet.`;
+        return;
+      }
 
-render();
+      const isCorrect = user.join("|||") === task.answer.join("|||");
+      if (isCorrect) {
+        feedback.innerHTML = `✅ Great! ${joinTokensForDisplay(task.answer)}`;
+        state.unscrambleSolved[taskIndex] = true;
+        score++;
+        solvedTotal++;
+        document.getElementById(`bank-area-${taskIndex}`).innerHTML = renderBank(taskIndex);
+        document.getElementById(`answer-area-${taskIndex}`).innerHTML = renderAnswerArea(taskIndex);
+        updateTop();
+      } else {
+        feedback.innerHTML = `❌ Not quite. Check the order and punctuation.`;
+      }
+    }
 
-</script>
+    function joinTokensForDisplay(tokens) {
+      let out = "";
+      const punct = [".", "?", "!", ",", ":"];
+      tokens.forEach((tok, i) => {
+        if (i === 0) {
+          out += tok;
+        } else if (punct.includes(tok)) {
+          out += tok;
+        } else {
+          out += " " + tok;
+        }
+      });
+      return out;
+    }
 
+    function showFinal() {
+      document.getElementById("finalSection").style.display = "block";
+      document.getElementById("finalBox").innerHTML = `
+        <h2 style="margin-top:0;">Nice work!</h2>
+        <p><b>Final score:</b> ${score}/${totalTasks}</p>
+        <p><b>Time:</b> ${formatTime(timer)}</p>
+        <p>You finished vocabulary usage, grammar usage, and unscramble.</p>
+        <button class="control-btn" onclick="location.reload()">Try Again</button>
+      `;
+      document.getElementById("partText").textContent = "Done";
+      document.getElementById("progressBar").style.width = "100%";
+    }
+
+    function renderAll() {
+      renderMCQSection("vocabContainer", vocabTasks, state.vocabSolved, "vocab");
+      renderMCQSection("grammarContainer", grammarTasks, state.grammarSolved, "grammar");
+      renderUnscrambleSection();
+      updateTop();
+    }
+
+    renderAll();
+  </script>
 </body>
 </html>
