@@ -1,135 +1,319 @@
-<!-- ONLY SHOWING UPDATED TASKS SECTION (everything else stays the same) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GA4 Grammar Practice Units 7–8</title>
+
+<style>
+body {
+  font-family: "Century Gothic", sans-serif;
+  background: linear-gradient(135deg,#0a1f44,#041126);
+  color: white;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+.section {
+  background: rgba(255,255,255,0.08);
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 20px;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.option {
+  background: #2c3e50;
+  color: white;
+}
+
+.correct { background: #2ecc71; }
+.wrong { background: #e74c3c; }
+
+.progress {
+  height: 12px;
+  background: #333;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 12px;
+  background: #2ecc71;
+  width: 0%;
+  border-radius: 10px;
+}
+
+.token {
+  background:#3a5a8a;
+  color:white;
+}
+
+.token.used {
+  opacity:0.4;
+}
+
+.answer-box {
+  min-height:50px;
+  border:2px dashed white;
+  padding:10px;
+  margin:10px 0;
+}
+
+.hint {
+  color:#a9c7ff;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Grammar Practice (Units 7–8)</h1>
+
+<div class="progress">
+<div class="progress-bar" id="progress"></div>
+</div>
+
+<div id="quiz"></div>
+
+</div>
 
 <script>
+
 const tasks = [
 
-  // VOCAB (same idea, slightly expanded)
-  {
-    type: "mcq",
-    section: "Vocabulary",
-    mode: "Meaning in context",
-    currentTask: "Vocabulary",
-    prompt: "What does <b>midnight</b> mean?",
-    options: ["12 o’clock at night", "early morning", "lunchtime", "after school"],
-    answer: 0,
-    hint: "It is the exact time between two days.",
-    correctMsg: "Correct! Midnight = 12 o’clock at night."
-  },
-  {
-    type: "mcq",
-    section: "Vocabulary",
-    mode: "Meaning in context",
-    currentTask: "Vocabulary",
-    prompt: "What does <b>usually</b> mean?",
-    options: ["never", "most of the time", "right now", "once"],
-    answer: 1,
-    hint: "Think: it happens often, but not always.",
-    correctMsg: "Good! Usually = most of the time."
-  },
+{
+type:"mcq",
+question:"What does 'midnight' mean?",
+options:["12 o’clock at night","morning","lunchtime"],
+answer:0,
+hint:"It is the exact time between days."
+},
 
-  // MIXED GRAMMAR (IMPORTANT)
-  {
-    type: "mcq",
-    section: "Grammar",
-    mode: "Choose the correct answer",
-    currentTask: "Grammar",
-    prompt: "I wake up ___ 7 o’clock.",
-    options: ["in", "on", "at"],
-    answer: 2,
-    hint: "Use this for exact time.",
-    correctMsg: "Correct! at 7 o’clock."
-  },
-  {
-    type: "mcq",
-    section: "Grammar",
-    mode: "Choose the correct answer",
-    currentTask: "Grammar",
-    prompt: "We play football ___ Saturdays.",
-    options: ["in", "on", "at"],
-    answer: 1,
-    hint: "Use this for days.",
-    correctMsg: "Correct! on Saturdays."
-  },
-  {
-    type: "mcq",
-    section: "Grammar",
-    mode: "Choose the correct answer",
-    currentTask: "Grammar",
-    prompt: "She ___ watches TV after dinner.",
-    options: ["every day", "usually", "at"],
-    answer: 1,
-    hint: "This word goes before the verb.",
-    correctMsg: "Correct! usually watches."
-  },
-  {
-    type: "mcq",
-    section: "Grammar",
-    mode: "Choose the correct answer",
-    currentTask: "Grammar",
-    prompt: "I do homework ___ every day.",
-    options: ["usually", "in", "✓ (no word needed)"],
-    answer: 2,
-    hint: "The time expression is already at the end.",
-    correctMsg: "Correct!"
-  },
-  {
-    type: "mcq",
-    section: "Grammar",
-    mode: "Choose the correct answer",
-    currentTask: "Grammar",
-    prompt: "How often ___ you go to the cinema?",
-    options: ["do", "does", "are"],
-    answer: 0,
-    hint: "Subject = you",
-    correctMsg: "Correct! do you go."
-  },
+{
+type:"mcq",
+question:"I wake up ___ 7 o’clock.",
+options:["in","on","at"],
+answer:2,
+hint:"Exact time"
+},
 
-  // UNSCRAMBLE (NO UNIT 9 NOW)
-  {
-    type: "unscramble",
-    section: "Sentence Unscramble",
-    prompt: "Make a correct sentence.",
-    clue: "Use: adverb before verb, time at the end.",
-    tokens: ["I", "usually", "eat", "breakfast", "at", "7"],
-    answer: ["I", "usually", "eat", "breakfast", "at", "7"],
-    hint: "Adverb goes before the verb."
-  },
-  {
-    type: "unscramble",
-    section: "Sentence Unscramble",
-    prompt: "Make a correct sentence.",
-    clue: "Use: day → on",
-    tokens: ["We", "play", "on", "Mondays"],
-    answer: ["We", "play", "on", "Mondays"],
-    hint: "Day uses ON."
-  },
-  {
-    type: "unscramble",
-    section: "Sentence Unscramble",
-    prompt: "Make a correct sentence.",
-    clue: "Use frequency expression at the end.",
-    tokens: ["She", "reads", "books", "every", "day"],
-    answer: ["She", "reads", "books", "every", "day"],
-    hint: "Every day goes at the end."
-  },
-  {
-    type: "unscramble",
-    section: "Sentence Unscramble",
-    prompt: "Make a correct sentence.",
-    clue: "WH question structure",
-    tokens: ["Where", "do", "you", "live"],
-    answer: ["Where", "do", "you", "live"],
-    hint: "WH + do + subject + verb"
-  },
-  {
-    type: "unscramble",
-    section: "Sentence Unscramble",
-    prompt: "Make a correct sentence.",
-    clue: "He → does (no s on main verb)",
-    tokens: ["How", "often", "does", "he", "play", "tennis"],
-    answer: ["How", "often", "does", "he", "play", "tennis"],
-    hint: "After DOES → verb is V1"
-  }
+{
+type:"mcq",
+question:"We play football ___ Saturdays.",
+options:["in","on","at"],
+answer:1,
+hint:"Days"
+},
+
+{
+type:"mcq",
+question:"She ___ watches TV after dinner.",
+options:["every day","usually","at"],
+answer:1,
+hint:"Goes before verb"
+},
+
+{
+type:"mcq",
+question:"How often ___ you go to school?",
+options:["do","does","are"],
+answer:0,
+hint:"Subject = you"
+},
+
+{
+type:"unscramble",
+tokens:["I","usually","eat","breakfast","at","7"],
+answer:["I","usually","eat","breakfast","at","7"],
+hint:"Adverb before verb"
+},
+
+{
+type:"unscramble",
+tokens:["We","play","on","Mondays"],
+answer:["We","play","on","Mondays"],
+hint:"Day = ON"
+},
+
+{
+type:"unscramble",
+tokens:["She","reads","books","every","day"],
+answer:["She","reads","books","every","day"],
+hint:"Time expression at end"
+},
+
+{
+type:"unscramble",
+tokens:["Where","do","you","live"],
+answer:["Where","do","you","live"],
+hint:"WH + do + subject"
+},
+
+{
+type:"unscramble",
+tokens:["How","often","does","he","play","tennis"],
+answer:["How","often","does","he","play","tennis"],
+hint:"Does → no s on verb"
+}
 
 ];
+
+let current=0;
+let score=0;
+let userAnswer=[];
+let used=[];
+
+function render(){
+const q=tasks[current];
+const quiz=document.getElementById("quiz");
+
+updateProgress();
+
+if(q.type==="mcq"){
+quiz.innerHTML=`
+<div class="section">
+<h2>${q.question}</h2>
+${q.options.map((opt,i)=>`
+<button class="option" onclick="checkMCQ(${i})">${opt}</button>
+`).join("")}
+<div id="feedback"></div>
+<div class="hint">${q.hint}</div>
+</div>`;
+}
+
+else{
+userAnswer=[];
+used=[];
+quiz.innerHTML=`
+<div class="section">
+<h2>Build the sentence</h2>
+
+<div class="answer-box" id="answer"></div>
+
+<div>
+${q.tokens.map((t,i)=>`
+<button class="token" id="t${i}" onclick="add(${i})">${t}</button>
+`).join("")}
+</div>
+
+<button onclick="checkUnscramble()">Check</button>
+<button onclick="reset()">Reset</button>
+
+<div id="feedback"></div>
+<div class="hint">${q.hint}</div>
+</div>`;
+}
+}
+
+function checkMCQ(i){
+const q=tasks[current];
+const feedback=document.getElementById("feedback");
+
+if(i===q.answer){
+feedback.innerHTML="✅ Correct!";
+score++;
+next();
+}else{
+feedback.innerHTML="❌ Try again";
+}
+}
+
+function add(i){
+if(used.includes(i)) return;
+
+used.push(i);
+userAnswer.push(tasks[current].tokens[i]);
+
+document.getElementById("t"+i).classList.add("used");
+
+updateAnswer();
+}
+
+function updateAnswer(){
+document.getElementById("answer").innerHTML=
+userAnswer.map((w,i)=>`<button onclick="remove(${i})">${w}</button>`).join(" ");
+}
+
+function remove(i){
+const word=userAnswer[i];
+const index=tasks[current].tokens.indexOf(word);
+
+used=used.filter(x=>x!==index);
+userAnswer.splice(i,1);
+
+document.getElementById("t"+index).classList.remove("used");
+
+updateAnswer();
+}
+
+function checkUnscramble(){
+const q=tasks[current];
+const feedback=document.getElementById("feedback");
+
+if(userAnswer.join(" ")===q.answer.join(" ")){
+feedback.innerHTML="✅ Correct!";
+score++;
+next();
+}else{
+feedback.innerHTML="❌ Check order";
+}
+}
+
+function reset(){
+userAnswer=[];
+used=[];
+render();
+}
+
+function next(){
+setTimeout(()=>{
+current++;
+if(current<tasks.length){
+render();
+}else{
+end();
+}
+},800);
+}
+
+function updateProgress(){
+document.getElementById("progress").style.width=
+(current/tasks.length*100)+"%";
+}
+
+function end(){
+document.getElementById("quiz").innerHTML=`
+<div class="section">
+<h2>Finished!</h2>
+<p>Score: ${score}/${tasks.length}</p>
+<button onclick="location.reload()">Try Again</button>
+</div>`;
+}
+
+render();
+
 </script>
+
+</body>
+</html>
