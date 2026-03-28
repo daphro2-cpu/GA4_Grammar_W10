@@ -199,6 +199,7 @@
       color: #e9f2ff;
       line-height: 1.5;
       font-size: 17px;
+      display: none;
     }
     .controls {
       display: flex;
@@ -291,7 +292,7 @@
         <h1>Grammar Practice • Units 7–8</h1>
         <div class="subtitle">
           Part 1: Vocabulary usage • Part 2: Grammar usage • Part 3: Unscramble<br>
-          Finish one part first. Then the next part will open.
+          Hints are hidden. Click <b>Hint</b> only if you need help.
         </div>
       </div>
 
@@ -352,32 +353,32 @@
         quote: "I don’t sleep at 8:00 p.m. I sleep at 12:00 a.m.",
         options: ["midnight", "weekend", "Monday", "summer"],
         answer: 0,
-        hint: "12:00 a.m. = midnight",
-        correctMsg: "Correct. We say: at midnight."
+        hint: "Think about the exact time between one day and the next day.",
+        clue: "This is a special clock time."
       },
       {
         prompt: "We visit Grandma at the ______.",
         quote: "We do not go on school days. We go on Saturday or Sunday.",
         options: ["morning", "weekend", "midnight", "classroom"],
         answer: 1,
-        hint: "Saturday and Sunday together = weekend",
-        correctMsg: "Correct. Saturday and Sunday = the weekend."
+        hint: "Think about two days together, not one time of day.",
+        clue: "It includes Saturday and Sunday."
       },
       {
         prompt: "My sister ______ does her homework after dinner. She does it almost every day.",
         quote: "",
         options: ["never", "usually", "on", "at"],
         answer: 1,
-        hint: "Almost every day = usually",
-        correctMsg: "Correct. Usually = most of the time."
+        hint: "Choose a frequency word that means 'most of the time.'",
+        clue: "This word goes before the verb."
       },
       {
         prompt: "We watch the New Year show on ______.",
-        quote: "It is not in a place. We watch it using the screen.",
+        quote: "It is not a place in a city. We watch it using a screen.",
         options: ["TV", "England", "Monday", "work"],
         answer: 0,
-        hint: "The phrase is: on TV",
-        correctMsg: "Correct. We say: on TV."
+        hint: "This is a medium, not a country or a workplace.",
+        clue: "The full phrase is very common in English."
       }
     ];
 
@@ -386,36 +387,36 @@
         prompt: "I get up ______ 7:00 every school day.",
         options: ["in", "on", "at", "every"],
         answer: 2,
-        hint: "Use this with exact time.",
-        correctMsg: "Correct. We say: at 7:00."
+        hint: "Use the preposition for exact clock times.",
+        clue: "This is a point in time."
       },
       {
         prompt: "We have English class ______ Mondays.",
         options: ["on", "at", "in", "does"],
         answer: 0,
-        hint: "Use this with days.",
-        correctMsg: "Correct. We say: on Mondays."
+        hint: "Use the preposition for days.",
+        clue: "Think about a day of the week."
       },
       {
         prompt: "My brother ______ plays basketball after school.",
         options: ["at", "usually", "on", "every day"],
         answer: 1,
-        hint: "Adverbs of frequency go before the main verb.",
-        correctMsg: "Correct. Usually goes before plays."
+        hint: "Use a frequency word in the middle of the sentence.",
+        clue: "This word goes before the main verb."
       },
       {
         prompt: "How often ______ you read English books?",
         options: ["does", "do", "are", "is"],
         answer: 1,
-        hint: "Subject = you",
-        correctMsg: "Correct. We say: do you read..."
+        hint: "The subject is 'you.'",
+        clue: "Use the helping verb for 'you.'"
       },
       {
         prompt: "Where ______ your cousins live?",
         options: ["does", "do", "is", "at"],
         answer: 1,
-        hint: "Cousins = plural",
-        correctMsg: "Correct. Plural subject takes do."
+        hint: "The subject is plural.",
+        clue: "Use the helping verb for 'they.'"
       }
     ];
 
@@ -424,25 +425,25 @@
         clue: "Use present simple. Adverb in the middle. Time expression at the end.",
         tokens: ["breakfast", "I", "usually", "eat", "at", "7:00", "."],
         answer: ["I", "usually", "eat", "breakfast", "at", "7:00", "."],
-        hint: "Start with the subject. Put usually before the verb."
+        hint: "Start with the subject. Put the frequency word before the main verb."
       },
       {
         clue: "This is a Wh-question. Use correct question order.",
         tokens: ["go", "How", "often", "you", "do", "to", "the", "cinema", "?"],
         answer: ["How", "often", "do", "you", "go", "to", "the", "cinema", "?"],
-        hint: "Wh-word + do + subject + verb"
+        hint: "Wh-word + do + subject + main verb"
       },
       {
         clue: "This sentence uses a day phrase and punctuation.",
         tokens: ["on", "We", "Saturdays", "tennis", "play", "."],
         answer: ["We", "play", "tennis", "on", "Saturdays", "."],
-        hint: "Subject first, then verb, then object, then time."
+        hint: "Subject first, then verb, then object, then time expression."
       },
       {
         clue: "This is a Wh-question with does. Do not add -s to the main verb.",
         tokens: ["your", "Where", "work", "sister", "does", "?"],
         answer: ["Where", "does", "your", "sister", "work", "?"],
-        hint: "After does, the main verb stays in base form."
+        hint: "After 'does', the main verb stays in base form."
       }
     ];
 
@@ -455,7 +456,12 @@
       vocabSolved: Array(vocabTasks.length).fill(false),
       grammarSolved: Array(grammarTasks.length).fill(false),
       unscrambleSolved: Array(unscrambleTasks.length).fill(false),
-      unscrambleStates: {}
+      unscrambleStates: {},
+      hintShown: {
+        vocab: Array(vocabTasks.length).fill(false),
+        grammar: Array(grammarTasks.length).fill(false),
+        unscramble: Array(unscrambleTasks.length).fill(false)
+      }
     };
 
     function formatTime(totalSec) {
@@ -516,13 +522,44 @@
                   ${solvedArray[index] ? "disabled" : ""}>${opt}</button>
               `).join("")}
             </div>
-            <div class="feedback" id="${sectionType}-feedback-${index}"></div>
-            <div class="hint-box" id="${sectionType}-hint-${index}">
-              <b>Hint:</b> ${task.hint}
+            <div class="controls">
+              <button class="control-btn" onclick="toggleHint('${sectionType}', ${index})"
+                ${solvedArray[index] ? "disabled" : ""}>Hint</button>
             </div>
+            <div class="feedback" id="${sectionType}-feedback-${index}"></div>
+            <div class="hint-box" id="${sectionType}-hint-${index}"></div>
           </div>
         `;
       }).join("");
+    }
+
+    function toggleHint(sectionType, index) {
+      let task;
+      if (sectionType === "vocab") task = vocabTasks[index];
+      else task = grammarTasks[index];
+
+      const box = document.getElementById(`${sectionType}-hint-${index}`);
+      const shown = state.hintShown[sectionType][index];
+
+      if (!shown) {
+        box.style.display = "block";
+        box.innerHTML = `<b>Hint:</b> ${task.hint}`;
+        state.hintShown[sectionType][index] = true;
+      } else {
+        box.style.display = "none";
+        box.innerHTML = "";
+        state.hintShown[sectionType][index] = false;
+      }
+    }
+
+    function showClue(sectionType, index) {
+      let task;
+      if (sectionType === "vocab") task = vocabTasks[index];
+      else task = grammarTasks[index];
+
+      const box = document.getElementById(`${sectionType}-hint-${index}`);
+      box.style.display = "block";
+      box.innerHTML = `<b>Clue:</b> ${task.clue}`;
     }
 
     function checkMCQ(sectionType, index, choice) {
@@ -544,7 +581,7 @@
       if (choice === task.answer) {
         buttons[choice].classList.add("correct");
         buttons.forEach(btn => btn.disabled = true);
-        feedback.innerHTML = `✅ ${task.correctMsg}`;
+        feedback.innerHTML = `✅ Correct.`;
         solvedArray[index] = true;
         score++;
         solvedTotal++;
@@ -553,6 +590,7 @@
         buttons[choice].classList.add("wrong");
         buttons[choice].disabled = true;
         feedback.innerHTML = `❌ Try again.`;
+        showClue(sectionType, index);
       }
     }
 
@@ -583,8 +621,6 @@
       const container = document.getElementById("unscrambleContainer");
       container.innerHTML = unscrambleTasks.map((task, index) => {
         initUnscrambleState(index);
-        const st = state.unscrambleStates[index];
-
         return `
           <div class="task-card">
             <div class="task-title">${index + 1}. Build the sentence.</div>
@@ -602,18 +638,35 @@
             </div>
 
             <div class="controls">
-              <button class="control-btn" onclick="showUnscrambleHint(${index})">Hint</button>
-              <button class="control-btn" onclick="resetUnscramble(${index})" ${state.unscrambleSolved[index] ? "disabled" : ""}>Reset</button>
-              <button class="control-btn" onclick="checkUnscramble(${index})" ${state.unscrambleSolved[index] ? "disabled" : ""}>Check</button>
+              <button class="control-btn" onclick="toggleUnscrambleHint(${index})"
+                ${state.unscrambleSolved[index] ? "disabled" : ""}>Hint</button>
+              <button class="control-btn" onclick="resetUnscramble(${index})"
+                ${state.unscrambleSolved[index] ? "disabled" : ""}>Reset</button>
+              <button class="control-btn" onclick="checkUnscramble(${index})"
+                ${state.unscrambleSolved[index] ? "disabled" : ""}>Check</button>
             </div>
 
             <div class="feedback" id="unscramble-feedback-${index}"></div>
-            <div class="hint-box" id="unscramble-hint-${index}">
-              <b>Tip:</b> Click a token in the answer to remove just that one token.
-            </div>
+            <div class="hint-box" id="unscramble-hint-${index}"></div>
           </div>
         `;
       }).join("");
+    }
+
+    function toggleUnscrambleHint(taskIndex) {
+      const box = document.getElementById(`unscramble-hint-${taskIndex}`);
+      const shown = state.hintShown.unscramble[taskIndex];
+      const task = unscrambleTasks[taskIndex];
+
+      if (!shown) {
+        box.style.display = "block";
+        box.innerHTML = `<b>Hint:</b> ${task.hint}`;
+        state.hintShown.unscramble[taskIndex] = true;
+      } else {
+        box.style.display = "none";
+        box.innerHTML = "";
+        state.hintShown.unscramble[taskIndex] = false;
+      }
     }
 
     function renderAnswerArea(index) {
@@ -631,7 +684,6 @@
       return st.bank.map((tok, i) => {
         const used = st.usedBankIndexes.includes(i);
         return `<button class="token-btn ${used ? "used" : ""}"
-                  id="bank-${index}-${i}"
                   onclick="addBankToken(${index}, ${i})"
                   ${used || state.unscrambleSolved[index] ? "disabled" : ""}>${tok}</button>`;
       }).join("");
@@ -666,15 +718,12 @@
         answerArea: [],
         usedBankIndexes: []
       };
+      state.hintShown.unscramble[taskIndex] = false;
       document.getElementById(`answer-area-${taskIndex}`).innerHTML = renderAnswerArea(taskIndex);
       document.getElementById(`bank-area-${taskIndex}`).innerHTML = renderBank(taskIndex);
       document.getElementById(`unscramble-feedback-${taskIndex}`).innerHTML = "";
-      document.getElementById(`unscramble-hint-${taskIndex}`).innerHTML = `<b>Tip:</b> Click a token in the answer to remove just that one token.`;
-    }
-
-    function showUnscrambleHint(taskIndex) {
-      document.getElementById(`unscramble-hint-${taskIndex}`).innerHTML =
-        `<b>Hint:</b> ${unscrambleTasks[taskIndex].hint}`;
+      document.getElementById(`unscramble-hint-${taskIndex}`).style.display = "none";
+      document.getElementById(`unscramble-hint-${taskIndex}`).innerHTML = "";
     }
 
     function checkUnscramble(taskIndex) {
@@ -708,13 +757,9 @@
       let out = "";
       const punct = [".", "?", "!", ",", ":"];
       tokens.forEach((tok, i) => {
-        if (i === 0) {
-          out += tok;
-        } else if (punct.includes(tok)) {
-          out += tok;
-        } else {
-          out += " " + tok;
-        }
+        if (i === 0) out += tok;
+        else if (punct.includes(tok)) out += tok;
+        else out += " " + tok;
       });
       return out;
     }
